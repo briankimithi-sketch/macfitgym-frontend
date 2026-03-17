@@ -1,11 +1,12 @@
 <script setup>
-const isLoggedIn = localStorage.getItem("isLoggedIn")
-const isAdmin = true
+import {useRouter} from "vue-router";
+import {useAuth} from '../services/auth'
 
-function logout(){
-    localStorage.removeItem("isLoggedIn")
-    router.push('/')
-}
+ const { logout } = useAuth()
+ const router = useRouter();
+
+const isLoggedIn = localStorage.getItem("authToken")
+const isAdmin = true
 </script>
 
 <template>
@@ -25,7 +26,7 @@ function logout(){
                         <v-btn color="primary" to="/profile">Profile</v-btn>                        
                     </v-list-item>
                     <v-list-item>
-                        <v-btn color="primary" @click="logout()">Logout</v-btn>                        
+                         <v-btn color="primary" @click="()=>{logout (); router.push('/')}">Logout</v-btn>                      
                     </v-list-item>
                 </v-list>
             </v-menu>

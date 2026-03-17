@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from "vue-router";
+import {useAuth} from '../services/auth'
 
+const router = useRouter();
+const { register, loading, error } = useAuth()
   const rules = {
     required: value => !!value || 'Required.',
     min: v => v.length >= 8 || 'Min 8 characters',
@@ -16,32 +20,41 @@ import { ref } from 'vue'
   const show1confirm =ref(false)
 
   //models
-    const firstname = ref(null)
-    const lastname = ref(null)
+    const firstName = ref(null)
+    const lastName = ref(null)
     const email = ref(null)
     const phonenumber = ref(null)
     const gender = ref(null)
     const dob = ref(null)
     const gymlocation = ref(null)
 
-    function signup(){
-        // create user object
-    const userDetails= {
-        name: firstname.value + lastname.value,
-        email: email.value,
-        phone: phonenumber.value,
-        dob: dob.value,
-        gender: gender.value,
-        gymlocation: gymlocation.value,
-        password: password.value,
+    const signUp = async () => {
+
+    loading.value = true;
+    error.value = "";
+
+    const formData = new FormData();
+    formData.append("name", firstName.value +' '+ lastName.value,);
+    formData.append("email", email.value);
+    formData.append("phonenumber", phonenumber.value);
+    formData.append("dob", dob.value);
+    formData.append("gender", gender.value);
+    formData.append("gymlocation", gymlocation.value);
+    formData.append("password", password.value);
+    formData.append("role_id", 4);
+
+    try {
+        await register(formData)
+    
+        // Redirect after successful signup
+        router.push('/homepage').then(() => {
+            router.go(0); // Reloads the current route
+        });
+    } catch (err) {
+        // Error is already handled by the auth service
+        console.error('Sign up failed', err)
     }
-        //store this data
-        try{
-            localStorage.setItem('userDetails',JSON.stringify(userDetails))
-        }catch(err){
-            console.error('sign up process failed',err)
-        }
-    }
+};
 
 </script>
 
@@ -66,7 +79,7 @@ import { ref } from 'vue'
                             <div class="text-display-medium font-weight-medium text-right">First name</div>
                         </v-col>
                         <v-col md="6">
-                            <v-text-field variant="outlined" v-model="firstname"></v-text-field>
+                            <v-text-field variant="outlined" v-model="firstName"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -74,7 +87,7 @@ import { ref } from 'vue'
                             <div class="text-display-medium font-weight-medium text-right">Last name</div>
                         </v-col>
                         <v-col md="6">
-                            <v-text-field variant="outlined" v-model="lastname"></v-text-field>
+                            <v-text-field variant="outlined" v-model="lastName"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -156,7 +169,7 @@ import { ref } from 'vue'
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-btn color="#3A4B68" variant="elevated" @click="signup">sign Up</v-btn>
+                            <v-btn color="#3A4B68" variant="elevated" @click="signUp">sign Up</v-btn>
                         </v-col>
                     </v-row>
                     <v-row>
