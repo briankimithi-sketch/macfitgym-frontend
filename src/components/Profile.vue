@@ -6,7 +6,7 @@ const userDetails = JSON.parse(localStorage.getItem(user))
     <v-container width="50%" style="background-color:#CFD0D6" class="mt-12">
         <v-col>
             <v-card>
-                <v-img src="" class="h-50"></v-img>
+                <v-img src="/image.jpeg" class="h-50"></v-img>
                 <v-card-title>{{userDetails.name}}</v-card-title>
                 <v-card-text>{{userDetails.email}}</v-card-text>
                 <v-card-text>{{userDetails.phonenumber}}</v-card-text>

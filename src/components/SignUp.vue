@@ -23,10 +23,10 @@ const { register, loading, error } = useAuth()
     const firstName = ref(null)
     const lastName = ref(null)
     const email = ref(null)
-    const phonenumber = ref(null)
+    const phoneNumber = ref(null)
     const gender = ref(null)
     const dob = ref(null)
-    const gymlocation = ref(null)
+    const gymLocation = ref(null)
 
     const signUp = async () => {
 
@@ -36,10 +36,10 @@ const { register, loading, error } = useAuth()
     const formData = new FormData();
     formData.append("name", firstName.value +' '+ lastName.value,);
     formData.append("email", email.value);
-    formData.append("phonenumber", phonenumber.value);
+    formData.append("phoneNumber", phoneNumber.value);
     formData.append("dob", dob.value);
     formData.append("gender", gender.value);
-    formData.append("gymlocation", gymlocation.value);
+    formData.append("gymLocation", gymLocation.value);
     formData.append("password", password.value);
     formData.append("role_id", 4);
 
